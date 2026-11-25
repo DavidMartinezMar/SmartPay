@@ -65,6 +65,14 @@
     <string name="payment_digits_cvv_title">Ingresa el código de seguridad de la tarjeta</string>
     <string name="payment_cancel_sale">Cancelar venta</string>
     <string name="payment_refund_sale">Devolución</string>
+    <string name="payment_mifare_title">Datos de la tarjeta</string>
+    <string name="payment_mifare_uid">UID</string>
+    <string name="payment_mifare_sak">SAK</string>
+    <string name="payment_mifare_atqa">ATQA</string>
+    <string name="payment_mifare_site_code">Site code</string>
+    <string name="payment_mifare_technology">Tecnología</string>
+    <string name="payment_mifare_account">Cuenta</string>
+    <string name="payment_mifare_encrypted_account">Cuenta cifrada</string>
 
     <!-- Cancellation / refund -->
     <string name="operation_cancellation_title">Cancelación de venta</string>

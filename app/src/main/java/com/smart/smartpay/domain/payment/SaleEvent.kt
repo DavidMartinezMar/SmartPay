@@ -84,6 +84,10 @@ sealed interface SaleEvent {
 
     /** The sale could not start (see [SaleErrorCodes]). */
     data class Failed(val code: String, val message: String) : SaleEvent
+
+    data class IntercardRead(
+        val intercard: Intercard
+    ) : SaleEvent
 }
 
 object SaleErrorCodes {

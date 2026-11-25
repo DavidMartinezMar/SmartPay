@@ -12,6 +12,7 @@ import com.smart.core_emv_sale.data.models.EmvSaleParams
 import com.smart.core_emv_sale.di.CoreEmvSaleModule
 import com.smart.core_emv_sale.domain.models.DccOfferAvailable
 import com.smart.core_emv_sale.domain.models.DccOfferSelected
+import com.smart.core_emv_sale.domain.models.IntercardData
 import com.smart.core_emv_sale.domain.models.PromotionSelected
 import com.smart.core_emv_sale.domain.models.PromotionsAvailable
 import com.smart.core_emv_sale.domain.models.SaleTransactionResult
@@ -22,6 +23,7 @@ import com.smart.smartpay.domain.payment.CardDigitsType
 import com.smart.smartpay.domain.payment.DccChoice
 import com.smart.smartpay.domain.payment.DccOffer
 import com.smart.smartpay.domain.payment.Decision
+import com.smart.smartpay.domain.payment.Intercard
 import com.smart.smartpay.domain.payment.PromotionChoice
 import com.smart.smartpay.domain.payment.PromotionOptions
 import com.smart.smartpay.domain.payment.SaleEvent
@@ -132,6 +134,8 @@ internal class SmartJPaymentSaleEngine : SaleEngine {
                 suggestQuery = suggestQuery,
                 receipt = resultTransaction.toReceipt(),
             )
+            is SaleTransactionResult.ShowIntercard ->
+                SaleEvent.IntercardRead(intercard.toPublic())
         }
 
     private fun cardDigits(
@@ -214,6 +218,16 @@ private fun DccOfferAvailable.toPublic(): DccOffer = DccOffer(
     foreignAmount = foreignAmount,
     foreignCurrency = foreignCurrency,
     reference = reference,
+)
+
+private fun IntercardData.toPublic(): Intercard = Intercard(
+    uid = uid,
+    atqa = atqa,
+    sak = sak,
+    siteCode = siteCode,
+    technology = technology,
+    accountNumber = accountNumber,
+    encryptedAccountNumber = encryptedAccountNumber
 )
 
 /** Adapts a [CompletableDeferred] decision (core-emv-sale) to the domain's [Decision]. */

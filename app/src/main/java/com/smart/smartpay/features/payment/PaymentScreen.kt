@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.smart.smartpay.R
+import com.smart.smartpay.domain.payment.Intercard
 import com.smart.smartpay.domain.payment.SaleReceipt
 import com.smart.smartpay.ui.format.formatAmount
 
@@ -176,6 +177,19 @@ private fun SaleResult(
                     Text(stringResource(R.string.payment_new_sale))
                 }
             }
+
+            is PaymentResult.IntercardCard -> {
+                Text(
+                    stringResource(R.string.payment_mifare_title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                )
+                Intercard(result.card)
+                Button(onClick = onNewSale, modifier = Modifier.fillMaxWidth().height(56.dp)) {
+                    Text(stringResource(R.string.payment_new_sale))
+                }
+            }
         }
     }
 }
@@ -197,4 +211,40 @@ internal fun ReceiptCard(receipt: SaleReceipt) {
 private fun ReceiptLine(label: Int, value: String) {
     if (value.isBlank()) return
     Text("${stringResource(label)}: $value", style = MaterialTheme.typography.bodyLarge)
+}
+
+@Composable
+private fun Intercard(card: Intercard) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            ReceiptLine(
+                R.string.payment_mifare_technology,
+                card.technology
+            )
+            ReceiptLine(
+                R.string.payment_mifare_uid,
+                card.uid
+            )
+            ReceiptLine(
+                R.string.payment_mifare_sak,
+                card.sak
+            )
+            ReceiptLine(
+                R.string.payment_mifare_atqa,
+                card.atqa
+            )
+            ReceiptLine(
+                R.string.payment_mifare_site_code,
+                card.siteCode
+            )
+            ReceiptLine(
+                R.string.payment_mifare_account,
+                card.accountNumber
+            )
+            ReceiptLine(
+                R.string.payment_mifare_encrypted_account,
+                card.encryptedAccountNumber
+            )
+        }
+    }
 }

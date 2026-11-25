@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.smart.smartpay.data.transactions.TransactionRepository
+import com.smart.smartpay.domain.payment.Intercard
 import com.smart.smartpay.navigation.PaymentRoute
 import com.smart.smartpay.domain.payment.SaleEvent
 import com.smart.smartpay.domain.payment.SaleReceipt
@@ -38,6 +39,8 @@ sealed interface PaymentResult {
     data class Declined(val message: String, val code: String, val retryWithChip: Boolean) : PaymentResult
 
     data class Failed(val message: String, val code: String) : PaymentResult
+
+    data class IntercardCard(val card: Intercard) : PaymentResult
 }
 
 data class PaymentUiState(
@@ -149,6 +152,7 @@ class PaymentViewModel @Inject constructor(
                     ),
                 )
                 is SaleEvent.Failed -> current.copy(result = PaymentResult.Failed(event.message, event.code))
+                is SaleEvent.IntercardRead -> current.copy(result = PaymentResult.IntercardCard(event.intercard))
             }
         }
     }
