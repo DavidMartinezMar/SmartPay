@@ -2,8 +2,8 @@ package com.smart.smartpay.di
 
 import android.content.Context
 import androidx.room.Room
-import com.smart.smartpay.data.transactions.local.TransactionDao
-import com.smart.smartpay.data.transactions.local.TransactionDatabase
+import com.smart.smartpay.data.storage.local.TransactionDao
+import com.smart.smartpay.data.storage.local.TransactionDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

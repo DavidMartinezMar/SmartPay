@@ -57,6 +57,8 @@ kotlin {
 
 dependencies {
     // Ui libraries
+    implementation(libs.bundles.ui.core)
+    implementation(libs.bundles.intuit)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -97,16 +99,19 @@ dependencies {
 
     // Smart dependencies, consumed directly
     /*implementation(project(":core-network"))
-        implementation(project(":core-payments"))
-        implementation(project(":core-emv"))
-        implementation(project(":core-emv-sale"))*/
-    // Smart Payment Libraries (consumed directly)
-
+    implementation(project(":core-payments"))
+    implementation(project(":core-emv"))
+    implementation(project(":core-emv-sale"))
+    implementation(project(":smartcomponentsuinip"))*/
 
     // Third party integrations Smart Payment Libraries
+    // core-emv is built with viewBinding=true; as a raw flatDir AAR (no POM) this
+    // transitive dependency isn't pulled in automatically, so it must be declared here.
+    implementation(libs.androidx.viewbinding)
     implementation(group = "", name = "smart-core-emv-library-1.0.0.0-quality-v0-debug", ext = "aar")
     implementation(group = "", name = "smart-core-emv-sale-library-1.0.0.0-quality-v0-debug", ext = "aar")
     implementation(group = "", name = "smart-core-network-library-1.0.0.0-quality-debug", ext = "aar")
     implementation(group = "", name = "smart-core-payments-library-1.0.0.0-quality-v0-debug", ext = "aar")
     implementation(group = "", name = "smart-logger-library-1.0.0.0-quality-v0-debug", ext = "aar")
+    implementation(group = "", name = "smart-components-ui-nip-library-1.0.0.0-debug", ext = "aar")
 }

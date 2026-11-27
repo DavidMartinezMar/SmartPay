@@ -1,7 +1,7 @@
 package com.smart.smartpay.di
 
-import com.smart.smartpay.data.transactions.TransactionRepository
-import com.smart.smartpay.data.transactions.TransactionRepositoryImpl
+import com.smart.smartpay.data.storage.repositories.TransactionRepository
+import com.smart.smartpay.data.storage.repositories.TransactionRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -16,7 +16,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-val smartWrapperDir = file("../android-app-smartwrapper")
+val smartWrapperDir = file("../../GitHub/android-app-smartwrapper")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)

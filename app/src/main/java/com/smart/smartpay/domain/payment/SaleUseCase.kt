@@ -1,10 +1,14 @@
 package com.smart.smartpay.domain.payment
 
-import com.smart.smartpay.core.PaymentSdk
-import com.smart.smartpay.core.TerminalSession
+import com.smart.smartpay.core.PaymentSdkManager
+import com.smart.smartpay.core.TerminalSessionManager
 import com.smart.smartpay.core.TransactionLock
 import com.smart.smartpay.data.payment.SaleEngine
 import com.smart.smartpay.data.payment.SmartJPaymentSaleEngine
+import com.smart.smartpay.domain.models.SaleErrorCodes.NOT_INITIALIZED
+import com.smart.smartpay.domain.models.SaleErrorCodes.SALE_IN_PROGRESS
+import com.smart.smartpay.domain.models.SaleErrorCodes.TERMINAL_NOT_READY
+import com.smart.smartpay.domain.models.SaleRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
@@ -41,15 +45,15 @@ class SaleUseCase internal constructor(
 
     constructor() : this(
         engine = { SmartJPaymentSaleEngine() },
-        isSdkInitialized = { PaymentSdk.isInitialized },
-        isTerminalReady = { TerminalSession.isReadyForSale },
+        isSdkInitialized = { PaymentSdkManager.isInitialized },
+        isTerminalReady = { TerminalSessionManager.isReadyForSale },
     )
 
     operator fun invoke(request: SaleRequest): Flow<SaleEvent> = flow {
         when {
-            !isSdkInitialized() -> emit(failed(SaleErrorCodes.NOT_INITIALIZED, "Call PaymentSdk.initialize(application) first"))
-            !isTerminalReady() -> emit(failed(SaleErrorCodes.TERMINAL_NOT_READY, "Authenticate the terminal first"))
-            !TransactionLock.tryAcquire() -> emit(failed(SaleErrorCodes.SALE_IN_PROGRESS, "Another transaction is in progress"))
+            isSdkInitialized().not() -> emit(failed(NOT_INITIALIZED, "Call PaymentSdkManager.initialize(application) first"))
+            isTerminalReady().not() -> emit(failed(TERMINAL_NOT_READY, "Authenticate the terminal first"))
+            TransactionLock.tryAcquire().not() -> emit(failed(SALE_IN_PROGRESS, "Another transaction is in progress"))
             else -> try {
                 emitAll(engine().sale(request))
             } finally {

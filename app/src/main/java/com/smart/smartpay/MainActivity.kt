@@ -10,15 +10,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.smart.smartpay.navigation.AppNavHost
-import com.smart.smartpay.ui.theme.SmartPayAppTheme
+import com.smart.smartpay.presentation.ui.theme.SmartPayAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        // System splash only covers process start; the startup work and progress bar
-        // run in the Compose SplashScreen (features/splash). Must be called before super.onCreate()
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

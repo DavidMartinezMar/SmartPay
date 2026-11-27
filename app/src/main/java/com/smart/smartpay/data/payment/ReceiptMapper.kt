@@ -1,7 +1,6 @@
 package com.smart.smartpay.data.payment
 
-import com.smart.smartpay.domain.payment.SaleCurrency
-import com.smart.smartpay.domain.payment.SaleReceipt
+import com.smart.smartpay.domain.models.SaleReceipt
 
 /** Builds a [SaleReceipt] from the transaction fields (common's collectionEmvParameters). */
 internal fun Map<String, String>.toReceipt(): SaleReceipt {
@@ -29,10 +28,4 @@ internal fun Map<String, String>.toReceipt(): SaleReceipt {
         footers = (1..4).map { field("FOOTER_$it") }.filter { it.isNotBlank() },
         raw = toMap(),
     )
-}
-
-/** Currency of the transaction of [receipt] (CURRENCY_CODE, "484" or "0484" style); pesos if unknown. */
-internal fun currencyOf(receipt: SaleReceipt): SaleCurrency {
-    val code = receipt.raw["CURRENCY_CODE"].orEmpty().trimStart('0')
-    return SaleCurrency.entries.firstOrNull { it.code == code } ?: SaleCurrency.MXN
 }

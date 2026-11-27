@@ -1,10 +1,18 @@
 package com.smart.smartpay.domain.payment
 
+import com.smart.smartpay.domain.models.CardApplication
+import com.smart.smartpay.domain.models.CardDigitsType
+import com.smart.smartpay.domain.models.DccChoice
+import com.smart.smartpay.domain.models.DccOffer
+import com.smart.smartpay.domain.models.Decision
+import com.smart.smartpay.domain.models.Intercard
+import com.smart.smartpay.domain.models.PromotionChoice
+import com.smart.smartpay.domain.models.PromotionOptions
+import com.smart.smartpay.domain.models.SaleReceipt
+
 /** Progress of a sale. A sale ends with [Approved], [Declined] or [Failed]. */
 sealed interface SaleEvent {
-
     // --- Card reading ---
-
     /** Waiting for the customer to insert, swipe or tap the card. */
     data object WaitingForCard : SaleEvent
 
@@ -33,7 +41,6 @@ sealed interface SaleEvent {
     ) : SaleEvent
 
     // --- Customer decisions ---
-
     /**
      * The card currency doesn't match the sale currency ([cardIsForeign]: foreign card on a peso
      * sale, otherwise national card on a dollar sale). Choose true to continue, false to abort.
@@ -54,7 +61,6 @@ sealed interface SaleEvent {
     ) : SaleEvent
 
     // --- PIN ---
-
     /** The customer must enter the PIN on the terminal's own secure PIN screen. */
     data object PinRequested : SaleEvent
 
@@ -68,7 +74,6 @@ sealed interface SaleEvent {
     data object PinProcessing : SaleEvent
 
     // --- Result ---
-
     data class Approved(val receipt: SaleReceipt) : SaleEvent
 
     /** Declined by the host or the card, or cancelled. */
@@ -88,14 +93,4 @@ sealed interface SaleEvent {
     data class IntercardRead(
         val intercard: Intercard
     ) : SaleEvent
-}
-
-object SaleErrorCodes {
-    const val NOT_INITIALIZED: String = "SDK_NOT_INITIALIZED"
-
-    /** The terminal was not authenticated in this process (AuthenticateProfilerUseCase). */
-    const val TERMINAL_NOT_READY: String = "SDK_TERMINAL_NOT_READY"
-
-    /** Another sale is in progress. */
-    const val SALE_IN_PROGRESS: String = "SDK_SALE_IN_PROGRESS"
 }

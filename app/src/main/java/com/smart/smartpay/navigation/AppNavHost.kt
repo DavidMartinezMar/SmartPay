@@ -7,12 +7,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.smart.smartpay.features.history.HistoryScreen
-import com.smart.smartpay.features.history.TransactionDetailScreen
-import com.smart.smartpay.features.payment.PaymentScreen
-import com.smart.smartpay.features.sale.SaleScreen
-import com.smart.smartpay.features.splash.SplashScreen
-import com.smart.smartpay.features.tip.TipScreen
+import com.smart.smartpay.presentation.ui.screens.calculator.SaleScreen
+import com.smart.smartpay.presentation.ui.screens.history.HistoryScreen
+import com.smart.smartpay.presentation.ui.screens.history.TransactionDetailScreen
+import com.smart.smartpay.presentation.ui.screens.payment.PaymentScreen
+import com.smart.smartpay.presentation.ui.screens.splash.SplashScreen
 
 /**
  * App navigation graph.
@@ -72,21 +71,11 @@ fun AppNavHost(
             )
         }
 
-        composable<TipRoute> {
-            // TipViewModel reads the amount from the route (SavedStateHandle)
-            TipScreen(
-                onContinue = { amountInCents, tipInCents ->
-                    navController.navigate(PaymentRoute(amountInCents, tipInCents))
-                },
-                modifier = Modifier.safeDrawingPadding(),
-            )
-        }
-
         composable<PaymentRoute> {
             // PaymentViewModel reads the amounts from the route (SavedStateHandle)
             PaymentScreen(
                 onNewSale = { navController.navigateToNewSale() },
-                // TODO: cancellation/refund disabled while they depend on common
+                // TODO: cancellation/refund disabled, missing implementation
                 onCancelSale = { _, _ -> },
                 onRefund = { _, _ -> },
                 modifier = Modifier.safeDrawingPadding(),

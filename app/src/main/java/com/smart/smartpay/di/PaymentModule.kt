@@ -2,7 +2,6 @@ package com.smart.smartpay.di
 
 import com.smart.smartpay.domain.authentication.AuthenticateProfilerUseCase
 import com.smart.smartpay.domain.payment.SaleUseCase
-import com.smart.smartpay.domain.tip.GetTipConfigurationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,14 +17,4 @@ object PaymentModule {
 
     @Provides
     fun provideSaleUseCase(): SaleUseCase = SaleUseCase()
-
-    // TODO: cancellation/refund disabled while they depend on common
-    // @Provides
-    // fun provideCancellationUseCase(): CancellationUseCase = CancellationUseCase()
-    //
-    // @Provides
-    // fun provideRefundUseCase(): RefundUseCase = RefundUseCase()
-
-    @Provides
-    fun provideGetTipConfigurationUseCase(): GetTipConfigurationUseCase = GetTipConfigurationUseCase()
 }
